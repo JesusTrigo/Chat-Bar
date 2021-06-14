@@ -30,3 +30,10 @@ Con esta single-page app podrás chatear con personas que se encuentren dentro d
 - Current version: V1.0
 
 ## ToDo
+
+## Middleware
+
+- app.use(express.json()): básicamente para poder leer el body, antes de las rutas
+- app.use(express.urlencoded({extended: true})):
+- errorHandler: va después de las rutas
+- checkToken: comprueba si estamos login o no antes de entrar a una ruta

@@ -94,32 +94,38 @@ UserRouter.post("/", async (req, res, next) => {
 UserRouter.post("/signup", async (req, res, next) => {
 
     try {
-        const { username, password, age, gender } = req.body;
+        const { username, password, age, email, gender } = req.body;
         
         const findUser = await User.findOne({ username });
 
         if (!username) {
             return next({
                 status: 400,
-                message: "Please, fill the field \"username\""
+                message: `Please, fill the field: Username`
             });
         };
         if (!password) {
             return next({
                 status: 400,
-                message: `Please, fill the field "password"`
+                message: `Please, fill the field: Password`
             });
         };
         if (!age) {
             return next({
                 status: 400,
-                message: `Please, fill the field "age"`
+                message: `Please, fill the field: Age`
+            });
+        };
+        if (!email) {
+            return next({
+                status: 400,
+                message: `Please, fill the field: Email`
             });
         };
         if (!gender) {
             return next({
                 status: 400,
-                message: `Please, fill the field "gender"`
+                message: `Please, fill the field: Gender`
             });
         };
         if (findUser) {
@@ -145,13 +151,14 @@ UserRouter.post("/signup", async (req, res, next) => {
             username,
             password,
             age,
+            email,
             gender
         });
 
         let newUser = await user.save();
 
         //const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: "24h" });
-        //aqui sin crear cuenta
+        //para login sin crear cuenta
 
         return res.json({
             success: true,
@@ -191,7 +198,8 @@ UserRouter.post("/login", async (req, res, next) => {
 
         if (!match) {
             return next({
-                status: 403, message: "Wrong credentials (pass)"
+                status: 403, 
+                message: "Wrong credentials (pass)"
             });
         }
 

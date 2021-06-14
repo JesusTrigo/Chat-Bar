@@ -1,5 +1,6 @@
 const { request } = require("express");
 const express = require("express");
+const { checkToken } = require("../middleware");
 const Bar = require("../models/Bar");
 const User = require("../models/User");
 const BarRouter = express.Router();
@@ -27,7 +28,7 @@ BarRouter.get("/", async (req, res) => {
 });
 
 
-BarRouter.get("/find/:id", async (req, res) => {
+BarRouter.get("/find/:id", checkToken, async (req, res) => {
     const { id } = req.params;
 
     let bar = await Bar.findById(id).select(["-__v"]).populate("users", ["username", "age", "gender"])
@@ -73,11 +74,15 @@ BarRouter.post("/", async (req, res, next) => {
 
 });
 
-BarRouter.put("/add_user/:id", async (req, res, next) => {
-    const { id } = req.params;
-    const { userid } = req.body
+BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
+
     try {
 
+        const { id } = req.params;
+        const userid = req.user.id;
+
+        let findUserModel = await User.findById(userid);
+        
         let bar = await Bar.findById(id)
 
 
@@ -88,17 +93,13 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
                 message: "User already in"
             });
         }
-
-        let findUserModel = await User.findById(userid);
-
         if (!findUserModel) {
             return next({
                 succes: false,
                 message: "User does not exist"
             })
         }
-
-
+        
         bar.users.push(userid);
 
         let newBar = await bar.save()
@@ -108,7 +109,6 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
             bar: newBar
         });
     } catch (err) {
-        console.log(err)
         return next({
             status: 400,
             message: err.message
@@ -120,16 +120,15 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
 
 
 
-BarRouter.put("/remove_user/:id", async (req, res, next) => {
+BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
 
     try {
 
-
         const { id } = req.params;
-        const { userid } = req.body
+        const userid = req.user.id;
 
         let bar = await Bar.findById(id)
-
+        
         if (!bar.users.includes(userid)) {
 
             return next({

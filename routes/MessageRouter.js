@@ -1,4 +1,5 @@
 const express = require("express");
+const { checkToken } = require("../middleware");
 const ChatRoom = require("../models/ChatRoom");
 const Message = require("../models/Msgs");
 const User = require("../models/User");
@@ -64,14 +65,16 @@ MessageRouter.get("/find/:id", async (req, res, next) => {
 
 
 
-MessageRouter.put("/add_message/:id", async (req, res, next) => {
+MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
 
     try {
         const { id } = req.params; //id del chatroom
 
-        const { user, text } = req.body;
+        const { text } = req.body;
 
-        if (!user || !text) {
+        const userid = req.user.id;
+
+        if (!userid || !text) {
             return res.json({
                 success: false,
                 message: "Por favor, rellene todos los campos"
@@ -87,7 +90,7 @@ MessageRouter.put("/add_message/:id", async (req, res, next) => {
             });
         }
 
-        let findUser = await chatroom.users.includes(user)
+        let findUser = await chatroom.users.includes(userid)
 
         if (!findUser) {
             return next({

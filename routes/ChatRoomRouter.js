@@ -1,4 +1,5 @@
 const express = require("express");
+const { checkToken } = require("../middleware");
 const Bar = require("../models/Bar");
 const ChatRoom = require("../models/ChatRoom");
 const User = require("../models/User");
@@ -30,13 +31,13 @@ ChatRoomRouter.get("/", async (req, res, next) => {
 });
 
 
-ChatRoomRouter.get("/find/:id", async (req, res, next) => {
+ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
 
     try {
 
         const { id } = req.params;
 
-        const { userid } = req.body;
+        const userid = req.user.id;
 
         let findChat = await ChatRoom.findById(id);
 
@@ -75,7 +76,10 @@ ChatRoomRouter.get("/find/:id", async (req, res, next) => {
 
 
 ChatRoomRouter.post("/new_room", async (req, res, next) => {
-    const { user1, user2, bar } = req.body;
+    
+    const { user2, bar } = req.body;
+
+    const user1 = req.user.id
 
     try {
 
