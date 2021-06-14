@@ -4,33 +4,72 @@ const ChatRoom = require("../models/ChatRoom");
 const User = require("../models/User");
 const ChatRoomRouter = express.Router();
 
-ChatRoomRouter.get("/", async (req, res) => {
+ChatRoomRouter.get("/", async (req, res, next) => {
+    try {
 
-    let chatroom = await ChatRoom.find()
-    if (!chatroom) {
+        let chatroom = await ChatRoom.find({})
+
+        if (!chatroom) {
+            return res.json({
+                success: false,
+                message: "Crear sala primero"
+            });
+        }
         return res.json({
-            success: false,
-            message: "Crear sala primero"
+            success: true,
+            chatroom
+        });
+
+    } catch (error) {
+        return next({
+            status: 400,
+            message: error.message
         });
     }
-    return res.json({
-        success: true,
-        chatroom
-    });
 
 });
 
 
-ChatRoomRouter.get("/find/:id", (req, res) => {
-    const { id } = req.params;
+ChatRoomRouter.get("/find/:id", async (req, res, next) => {
 
-    ChatRoom.findById(id).select(["-_id", "-__v"]).populate("users", ["username", "age", "gender"])
-        .exec((err, chatroom) => {
-            res.json({
-                success: true,
-                chatroom
+    try {
+
+        const { id } = req.params;
+
+        const { userid } = req.body;
+
+        let findChat = await ChatRoom.findById(id);
+
+        if (!findChat) {
+            return next ({
+                status: 400,
+                message: "La sala de chat no existe"
             });
+        }
+
+        let findUser = findChat.users.includes(userid);
+
+        if (!findUser) {
+            return next ({
+                status: 400,
+                message: "El usuario no está en la sala de chat"
+            });
+        }
+
+        ChatRoom.findById(id).select(["-_id", "-__v"]).populate("users", ["username", "age", "gender"])
+            .exec((err, chatroom) => {
+                res.json({
+                    success: true,
+                    chatroom
+                });
+            });
+
+    } catch (error) {
+        return next({
+            status: 400,
+            message: error.message
         });
+    }
 });
 
 
@@ -83,7 +122,7 @@ ChatRoomRouter.post("/new_room", async (req, res, next) => {
         });
 
     } catch (err) {
-        console.log(err)
+        
         return next({
             status: 400,
             message: err.message

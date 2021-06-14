@@ -80,6 +80,7 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
 
         let bar = await Bar.findById(id)
 
+
         if (bar.users.includes(userid)) {
 
             return next({
@@ -96,7 +97,7 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
                 message: "User does not exist"
             })
         }
-        
+
 
         bar.users.push(userid);
 
@@ -107,6 +108,7 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
             bar: newBar
         });
     } catch (err) {
+        console.log(err)
         return next({
             status: 400,
             message: err.message
@@ -118,23 +120,42 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
 
 
 
-BarRouter.put("/remove_user/:id", async (req, res) => {
-    const { id } = req.params;
-    const { userid } = req.body
+BarRouter.put("/remove_user/:id", async (req, res, next) => {
 
-    let bar = await Bar.findById(id)
+    try {
 
-    const index = bar.users.findIndex(user => user == userid)
-    if (index > -1) {
-        bar.users.splice(index, 1);
+
+        const { id } = req.params;
+        const { userid } = req.body
+
+        let bar = await Bar.findById(id)
+
+        if (!bar.users.includes(userid)) {
+
+            return next({
+                status: 400,
+                message: "El usuario no se encuentra dentro del bar"
+            });
+        }
+
+        const index = bar.users.findIndex(user => user == userid)
+        if (index > -1) {
+            bar.users.splice(index, 1);
+        }
+
+        let newBar = await bar.save()
+
+        res.json({
+            success: true,
+            bar: newBar
+        });
+
+    } catch (error) {
+        return next({
+            status: 400,
+            message: error.message
+        })
     }
-
-    let newBar = await bar.save()
-
-    res.json({
-        success: true,
-        bar: newBar
-    });
 
 });
 
