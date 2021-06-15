@@ -12,13 +12,14 @@ BarRouter.get("/", async (req, res) => {
     let bars = await Bar.find({})
 
     let reformedBar = bars.map(bar => {
+        
         return {
             _id: bar._id,
             name: bar.name,
             city: bar.city,
             users: bar.users.length
         }
-    })
+    });
 
     return res.json({
         success: true,
@@ -28,7 +29,7 @@ BarRouter.get("/", async (req, res) => {
 });
 
 
-BarRouter.get("/find/:id", checkToken, async (req, res) => {
+BarRouter.get("/find/:id", async (req, res) => {
     const { id } = req.params;
 
     let bar = await Bar.findById(id).select(["-__v"]).populate("users", ["username", "age", "gender"])
@@ -74,12 +75,14 @@ BarRouter.post("/", async (req, res, next) => {
 
 });
 
-BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
+BarRouter.put("/add_user/:id", async (req, res, next) => {
 
     try {
 
         const { id } = req.params;
-        const userid = req.user.id;
+        //const userid = req.user.id;
+
+        const userid = req.body.userid
 
         let findUserModel = await User.findById(userid);
 
@@ -125,7 +128,9 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
     try {
 
         const { id } = req.params;
-        const userid = req.user.id;
+       // const userid = req.user.id;
+
+       const userid = req.body.userid
 
         let bar = await Bar.findById(id)
 
@@ -138,6 +143,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
         }
 
         const index = bar.users.findIndex(user => user == userid)
+        
         if (index > -1) {
             bar.users.splice(index, 1);
         }
@@ -160,7 +166,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
 
 
 
-BarRouter.delete("/remove_bar/:id", async (req, res, next) => {
+BarRouter.delete("/remove_bar/:id", checkToken, async (req, res, next) => {
 
     try {
         const { id } = req.params;
