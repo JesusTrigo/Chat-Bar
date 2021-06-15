@@ -9,7 +9,6 @@ const MessageRouter = express.Router();
 MessageRouter.get("/", async (req, res, next) => {
     try {
 
-
         let messages = await Message.find({})
 
         if (!messages) {
@@ -40,7 +39,6 @@ MessageRouter.get("/", async (req, res, next) => {
 MessageRouter.get("/find/:id", async (req, res, next) => {
     try {
         
-
         const { userid } = req.body;
 
         let findUser = await ChatRoom.users.findById(userid)
@@ -100,11 +98,11 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
         };
 
         let message = new Message({
-            user,
+            user : userid,
             date: new Date(),
             text
         });
-
+        
         let newMessage = await message.save()
 
         chatroom.messages.push(newMessage._id)
@@ -122,6 +120,40 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
             message: err.message
         });
     }
+});
+
+
+
+MessageRouter.delete("/remove_message/:id", async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        let findBar = await Bar.findById(id)
+
+        if (!findBar) {
+            return next({
+                status: 400,
+                message: "El bar introducido no existe"
+            })
+        }
+        if (findBar) {
+            return findBar.deleteOne(),
+            res.json({
+                message: "Bar eliminado",
+
+            });
+        };
+    }
+
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+
+    }
+
 });
 
 module.exports = MessageRouter;

@@ -82,7 +82,7 @@ BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
         const userid = req.user.id;
 
         let findUserModel = await User.findById(userid);
-        
+
         let bar = await Bar.findById(id)
 
 
@@ -99,7 +99,7 @@ BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
                 message: "User does not exist"
             })
         }
-        
+
         bar.users.push(userid);
 
         let newBar = await bar.save()
@@ -128,7 +128,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
         const userid = req.user.id;
 
         let bar = await Bar.findById(id)
-        
+
         if (!bar.users.includes(userid)) {
 
             return next({
@@ -161,15 +161,25 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
 
 
 BarRouter.delete("/remove_bar/:id", async (req, res, next) => {
-    const { id } = req.params;
 
     try {
-        let bar = await Bar.findByIdAndDelete(id);
+        const { id } = req.params;
 
-        return res.json({
-            success: true,
-            message: "Bar eliminado"
-        });
+        let findBar = await Bar.findById(id)
+
+        if (!findBar) {
+            return next({
+                status: 400,
+                message: "El bar introducido no existe"
+            })
+        }
+        if (findBar) {
+            findBar.deleteOne(),
+            res.json({
+                message: "Bar eliminado",
+
+            });
+        };
     }
 
     catch (err) {
@@ -183,3 +193,5 @@ BarRouter.delete("/remove_bar/:id", async (req, res, next) => {
 });
 
 module.exports = BarRouter;
+
+//return res.redirect("/bares")

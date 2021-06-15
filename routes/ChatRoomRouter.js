@@ -42,7 +42,7 @@ ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
         let findChat = await ChatRoom.findById(id);
 
         if (!findChat) {
-            return next ({
+            return next({
                 status: 400,
                 message: "La sala de chat no existe"
             });
@@ -51,7 +51,7 @@ ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
         let findUser = findChat.users.includes(userid);
 
         if (!findUser) {
-            return next ({
+            return next({
                 status: 400,
                 message: "El usuario no está en la sala de chat"
             });
@@ -75,13 +75,13 @@ ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
 
 
 
-ChatRoomRouter.post("/new_room", async (req, res, next) => {
-    
-    const { user2, bar } = req.body;
-
-    const user1 = req.user.id
+ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
 
     try {
+
+        const user1 = req.user.id
+
+        const { user2, bar } = req.body;
 
         if (!user1 || !user2 || !bar) {
             return res.json({
@@ -126,7 +126,7 @@ ChatRoomRouter.post("/new_room", async (req, res, next) => {
         });
 
     } catch (err) {
-        
+
         return next({
             status: 400,
             message: err.message

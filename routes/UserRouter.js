@@ -47,45 +47,45 @@ UserRouter.get("/find/:id", async (req, res, next) => {
 
 //Crear nuevo usuario
 
-UserRouter.post("/", async (req, res, next) => {
-    const { username, password, email, age, gender } = req.body;
+// UserRouter.post("/", async (req, res, next) => {
+//     const { username, password, email, age, gender } = req.body;
 
-    try {
-        if (!username || !password || !email || !age || !gender) {
-            return next({
-                status: 400,
-                message: "Por favor, rellene todos los campos"
-            });
-        };
-        if (age < 18) {
-            return next({
-                succes: false,
-                message: "Minimum age required: 18"
-            })
-        }
+//     try {
+//         if (!username || !password || !email || !age || !gender) {
+//             return next({
+//                 status: 400,
+//                 message: "Por favor, rellene todos los campos"
+//             });
+//         };
+//         if (age < 18) {
+//             return next({
+//                 succes: false,
+//                 message: "Minimum age required: 18"
+//             })
+//         }
 
-        let user = new User({
-            username,
-            password,
-            email,
-            age,
-            gender
-        });
+//         let user = new User({
+//             username,
+//             password,
+//             email,
+//             age,
+//             gender
+//         });
 
-        let newUser = await user.save()
+//         let newUser = await user.save()
 
-        res.json({
-            success: true,
-            user: newUser
-        });
-    }
-    catch (err) {
-        return next({
-            status: 400,
-            message: err.message
-        });
-    }
-});
+//         res.json({
+//             success: true,
+//             user: newUser
+//         });
+//     }
+//     catch (err) {
+//         return next({
+//             status: 400,
+//             message: err.message
+//         });
+//     }
+// });
 
 
 
@@ -97,6 +97,8 @@ UserRouter.post("/signup", async (req, res, next) => {
         const { username, password, age, email, gender } = req.body;
         
         const findUser = await User.findOne({ username });
+
+        var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
         if (!username) {
             return next({
@@ -110,6 +112,12 @@ UserRouter.post("/signup", async (req, res, next) => {
                 message: `Please, fill the field: Password`
             });
         };
+        if (!emailRegex.test(email)) {
+            return next({
+                status: 400,
+                message: "Por favor, introduzca un formato de email válido"
+            })
+        }
         if (!age) {
             return next({
                 status: 400,
@@ -216,6 +224,44 @@ UserRouter.post("/login", async (req, res, next) => {
         })
     }
 });
+
+
+
+//Eliminar usuario
+
+
+UserRouter.delete("/remove_user/:id", async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        let findBar = await Bar.findById(id)
+
+        if (!findBar) {
+            return next({
+                status: 400,
+                message: "El bar introducido no existe"
+            })
+        }
+        if (findBar) {
+            return findBar.deleteOne(),
+            res.json({
+                message: "Bar eliminado",
+
+            });
+        };
+    }
+
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+
+    }
+
+});
+
 
 module.exports = UserRouter;
 

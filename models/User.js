@@ -21,7 +21,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true
+        trim: true,
+        match: [/.+\@.+\..+/, 'Por favor ingrese un correo válido']
     },
     gender: String
 });
