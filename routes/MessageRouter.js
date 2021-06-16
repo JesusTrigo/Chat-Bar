@@ -39,27 +39,40 @@ MessageRouter.get("/", async (req, res, next) => {
 
 MessageRouter.get("/find/:id", checkToken, async (req, res, next) => {
     try {
-        
-        const { userid } = req.body;
 
-        let findUser = await ChatRoom.users.findById(userid)
+        const { id } = req.params;
 
-        if (findUser) {
-            return res.json({
-                success: true,
-                message
-            });
+        const userid = req.user.id;
+
+        let findChat = await ChatRoom.findById(id);
+
+        let index = await findChat.messages.findIndex(msg => msg === id)
+
+        if (index > -1) {
+            findChat.messages.splice(index, 999);
         }
 
+        if (!findChat) {
+            return res.json({
+                succes: false,
+                message: "Sala de chat no encontrada"
+            });
+        };
 
+        let newMsgs = await findChat.save()
+
+        res.json({
+            success: true,
+            findChat: newMsgs
+        });
 
     } catch (err) {
         console.log(err)
         return next({
             status: 400,
             message: err.message
-        })
-    }
+        });
+    };
 });
 
 
@@ -91,19 +104,19 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
 
         let findUser = await chatroom.users.includes(userid)
 
-        // if (!findUser) {
-        //     return next({
-        //         status: 400,
-        //         message: "El usuario no está dentro de la sala de chat"
-        //     });
-        // };
+        if (!findUser) {
+            return next({
+                status: 400,
+                message: "El usuario no está dentro de la sala de chat"
+            });
+        };
 
         let message = new Message({
-            user : userid,
+            user: userid,
             date: new Date(),
             text
         });
-        
+
         let newMessage = await message.save()
 
         chatroom.messages.push(newMessage._id)
@@ -140,10 +153,10 @@ MessageRouter.delete("/remove_message/:id", checkToken, async (req, res, next) =
         }
         if (findMessage) {
             return findMessage.deleteOne(),
-            res.json({
-                message: "Mensaje eliminado",
+                res.json({
+                    message: "Mensaje eliminado",
 
-            });
+                });
         };
     }
 
