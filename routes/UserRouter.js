@@ -103,13 +103,13 @@ UserRouter.post("/signup", async (req, res, next) => {
         if (!username) {
             return next({
                 status: 400,
-                message: `Please, fill the field: Username`
+                message: `Por favor, rellene el campo: Username`
             });
         };
         if (!password) {
             return next({
                 status: 400,
-                message: `Please, fill the field: Password`
+                message: `Por favor, rellene el campo: Password`
             });
         };
         if (!emailRegex.test(email)) {
@@ -121,19 +121,19 @@ UserRouter.post("/signup", async (req, res, next) => {
         if (!age) {
             return next({
                 status: 400,
-                message: `Please, fill the field: Age`
+                message: `Por favor, rellene el campo: Age`
             });
         };
         if (!email) {
             return next({
                 status: 400,
-                message: `Please, fill the field: Email`
+                message: `Por favor, rellene el campo: Email`
             });
         };
         if (!gender) {
             return next({
                 status: 400,
-                message: `Please, fill the field: Gender`
+                message: `Por favor, rellene el campo: Gender`
             });
         };
         if (findUser) {
@@ -145,13 +145,13 @@ UserRouter.post("/signup", async (req, res, next) => {
         if (password.length < 6) {
             return next({
                 status: 400,
-                message: "Password too short"
+                message: "Password demasiado corta"
             });
         };
         if (age < 18) {
             return next({
                 status: 400,
-                message: "Minimum age required: 18"
+                message: "Edad mínima: 18"
             })
         };
         //se podría encriptar aquí la pass, pero mejor en el modelo de user

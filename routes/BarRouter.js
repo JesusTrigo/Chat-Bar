@@ -7,46 +7,58 @@ const BarRouter = express.Router();
 
 
 
-BarRouter.get("/", async (req, res) => {
-
-    let bars = await Bar.find({})
-
-    let reformedBar = bars.map(bar => {
-        
-        return {
-            _id: bar._id,
-            name: bar.name,
-            city: bar.city,
-            users: bar.users.length
-        }
-    });
-
-    return res.json({
-        success: true,
-        bars: reformedBar
-    });
-
-});
-
-
-BarRouter.get("/find/:id", async (req, res) => {
-    const { id } = req.params;
-
-    let bar = await Bar.findById(id).select(["-__v"]).populate("users", ["username", "age", "gender"])
-
-    return res.json({
-        success: true,
-        bar
-    });
-
-
-});
-
-
-
-BarRouter.post("/", async (req, res, next) => {
-    const { name, city } = req.body;
+BarRouter.get("/", async (req, res, next) => {
     try {
+
+        let bars = await Bar.find({})
+
+        let reformedBar = bars.map(bar => {
+
+            return {
+                _id: bar._id,
+                name: bar.name,
+                city: bar.city,
+                users: bar.users.length
+            };
+        });
+
+        return res.json({
+            success: true,
+            bars: reformedBar
+        });
+    } catch (error) {
+        return next({
+            status: 400,
+            message: error.message
+        });
+    };
+
+});
+
+
+BarRouter.get("/find/:id", checkToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        let bar = await Bar.findById(id).select(["-__v"]).populate("users", ["username", "age", "gender"])
+
+        return res.json({
+            success: true,
+            bar
+        });
+    } catch (error) {
+        return next({
+            status: 400,
+            message: error.message
+        });
+    };
+});
+
+
+
+BarRouter.post("/", checkToken, async (req, res, next) => {
+    try {
+        const { name, city } = req.body;
         if (!name || !city) {
             return next({
                 status: 403,
@@ -75,14 +87,12 @@ BarRouter.post("/", async (req, res, next) => {
 
 });
 
-BarRouter.put("/add_user/:id", async (req, res, next) => {
+BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
 
     try {
 
         const { id } = req.params;
-        //const userid = req.user.id;
-
-        const userid = req.body.userid
+        const userid = req.user.id;
 
         let findUserModel = await User.findById(userid);
 
@@ -93,13 +103,13 @@ BarRouter.put("/add_user/:id", async (req, res, next) => {
 
             return next({
                 success: false,
-                message: "User already in"
+                message: "El usuario ya está denro"
             });
         }
         if (!findUserModel) {
             return next({
                 succes: false,
-                message: "User does not exist"
+                message: "El usuario no existe"
             })
         }
 
@@ -128,9 +138,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
     try {
 
         const { id } = req.params;
-       // const userid = req.user.id;
-
-       const userid = req.body.userid
+        const userid = req.user.id;
 
         let bar = await Bar.findById(id)
 
@@ -143,7 +151,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
         }
 
         const index = bar.users.findIndex(user => user == userid)
-        
+
         if (index > -1) {
             bar.users.splice(index, 1);
         }
@@ -181,10 +189,10 @@ BarRouter.delete("/remove_bar/:id", checkToken, async (req, res, next) => {
         }
         if (findBar) {
             findBar.deleteOne(),
-            res.json({
-                message: "Bar eliminado",
+                res.json({
+                    message: "Bar eliminado",
 
-            });
+                });
         };
     }
 

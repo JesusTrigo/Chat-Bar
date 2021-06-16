@@ -27,56 +27,57 @@ La idea de esta app surge a raíz de lo anteriormente expuesto, posibilitando as
 - Ver mis chats
 
 
-## Backend
 
-Basado en Node.JS.
-Base de datos alojada en MongoAtlas. Llamadas a la BD y modelo de datos a través de Mongoose.
-Encriptamiento de datos (password) y protección de rutas privadas con bcrypt y jsonwebtoken.
-Direccionamiento con Express.
-
-### Diagrama de relaciones entre modelos
+## Diagrama de relaciones entre modelos
 
 <img src="./images/diagrama.png" alt="..." width="602">
 </div>
 
-### Direccionamiento
+## Direccionamiento
 
 Usuario 
 > /users
 
-    GET:        /                       → encuentra todos los users
-    POST:       /signup                 → creación de nueva cuenta
-                /login                  → ingresar en la app
+    GET:      /                       → ruta privada que muestra todos los usuarios
+    POST:     /signup                 → ruta pública para la creación de nueva cuenta
+              /login                  → ruta pública para ingresar en la app
                 
 Bares
 > /bares
 
-    GET:        /                       → muestra lista de bares con las keys: id, name, city, y cantidad cantidad de users
-    POST:       /                       → crear un nuevo bar
-    GET:        /find/:id               → buscar bar por su id
-    PUT:        /add_user               → añadir usuario a un bar
-                /remove_user            → eliminar usuario de un bar
-    DELETE:     /remove_bar             → eliminar bar
+    POST:     /                        → crear un nuevo bar
+    GET:      /                        → ruta privada que muestra lista de bares con las keys: id, name, city y número de usuarios
+              /find/:id                → ruta privada que busca un bar por su id
+    PUT:      /add_user                → ruta privada que añade un usario a un bar, con la id de ambos
+              /remove_user             → ruta privada que elimina un usuario de un bar, con la id de ambos
+    DELETE:   /remove_bar              → ruta privada que elimina un bar por su id
 
 Chat room
 
 > /chat_room
 
-    GET:        /find/:id               → encontrar una sala de char por su id
-    POST:       /new_room               → crear una nueva sala de chat
+    GET:       /find/:id               → ruta privada que busca una sala de chat por su id y la id de un usuario que se encuentre en ella
+    POST:      /new_room               → ruta privada que crea una sala de chat con la id de un bar y la id de un usuario que se 
+                                         encuentre dentro de éste
 
 Mensajes
 
 > /messages
 
-    PUT         /messages/add_message   → añadir un mensaje nuevo
+    PUT         /messages/add_message   → ruta privada que añade un mensaje a una sala de chat, mediante su id y la id del usuario que  
+                                          se encuentre dentro de la sala
 
 
 ## About
 
 - Current version: V1.0
 
+## Backend
 
+Basado en Node.JS.
+Base de datos alojada en MongoAtlas. Llamadas a la BD y modelo de datos a través de Mongoose.
+Encriptamiento de datos (password) y protección de rutas privadas con bcrypt y jsonwebtoken.
+Direccionamiento con Express.
 
 ## Middleware
 

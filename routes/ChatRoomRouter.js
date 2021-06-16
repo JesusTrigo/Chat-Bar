@@ -5,7 +5,7 @@ const ChatRoom = require("../models/ChatRoom");
 const User = require("../models/User");
 const ChatRoomRouter = express.Router();
 
-ChatRoomRouter.get("/", async (req, res, next) => {
+ChatRoomRouter.get("/", checkToken, async (req, res, next) => {
     try {
 
         let chatroom = await ChatRoom.find({})
@@ -134,6 +134,98 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
     }
 });
 
+
+
+ChatRoomRouter.delete("/remove_room/:id", checkToken, async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        const userid = req.body.userid
+
+        let findChatRoom = await ChatRoom.findById(id)
+
+        if (!findChatRoom) {
+            return next({
+                status: 400,
+                message: "La sala de chat introducida no existe"
+            });
+        };
+        if (!userid) {
+            return next({
+                status: 400,
+                message: "El usuario no está dentro de la sala de chat"
+            });
+        };
+        if (findChatRoom) {
+            findChatRoom.deleteOne(),
+                res.json({
+                    message: "Sala de chat eliminada"
+
+                });
+        };
+    }
+
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+
+    }
+
+});
+
+ChatRoomRouter.delete("/remove_messages_room/:id", checkToken, async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        const userid = req.body.userid
+
+        let findChatRoom = await ChatRoom.findById(id)
+
+
+        await findChatRoom.messages.splice(0, 4)
+
+        let newchatRm = await findChatRoom.save()
+
+        res.json({
+            success: true,
+            findChatRoom: newchatRm
+        });
+        
+
+        // if (!findChatRoom) {
+        //     return next({
+        //         status: 400,
+        //         message: "La sala de chat introducida no existe"
+        //     });
+        // };
+        // if (!userid) {
+        //     return next({
+        //         status: 400,
+        //         message: "El usuario no está dentro de la sala de chat"
+        //     });
+        // };
+        // if (findChatRoom) {
+        //     findChatRoom.deleteOne(),
+        //         res.json({
+        //             message: "Sala de chat eliminada"
+
+        //         });
+        // };
+    }
+
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+
+    }
+
+});
 
 
 module.exports = ChatRoomRouter;

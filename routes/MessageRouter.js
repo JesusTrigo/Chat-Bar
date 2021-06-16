@@ -1,6 +1,7 @@
 const express = require("express");
 const { checkToken } = require("../middleware");
 const ChatRoom = require("../models/ChatRoom");
+const Msgs = require("../models/Msgs");
 const Message = require("../models/Msgs");
 const User = require("../models/User");
 const ChatRoomRouter = require("./ChatRoomRouter");
@@ -36,7 +37,7 @@ MessageRouter.get("/", async (req, res, next) => {
 
 
 
-MessageRouter.get("/find/:id", async (req, res, next) => {
+MessageRouter.get("/find/:id", checkToken, async (req, res, next) => {
     try {
         
         const { userid } = req.body;
@@ -72,10 +73,10 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
 
         const userid = req.user.id;
 
-        if (!userid || !text) {
+        if (!text) {
             return res.json({
                 success: false,
-                message: "Por favor, rellene todos los campos"
+                message: "Por favor, escriba algo"
             });
         };
 
@@ -90,12 +91,12 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
 
         let findUser = await chatroom.users.includes(userid)
 
-        if (!findUser) {
-            return next({
-                status: 400,
-                message: "El usuario no está dentro de la sala de chat"
-            });
-        };
+        // if (!findUser) {
+        //     return next({
+        //         status: 400,
+        //         message: "El usuario no está dentro de la sala de chat"
+        //     });
+        // };
 
         let message = new Message({
             user : userid,
@@ -124,23 +125,23 @@ MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
 
 
 
-MessageRouter.delete("/remove_message/:id", async (req, res, next) => {
+MessageRouter.delete("/remove_message/:id", checkToken, async (req, res, next) => {
 
     try {
         const { id } = req.params;
 
-        let findBar = await Bar.findById(id)
+        let findMessage = await Msgs.findById(id)
 
-        if (!findBar) {
+        if (!findMessage) {
             return next({
                 status: 400,
-                message: "El bar introducido no existe"
+                message: "Mensaje no encontrado"
             })
         }
-        if (findBar) {
-            return findBar.deleteOne(),
+        if (findMessage) {
+            return findMessage.deleteOne(),
             res.json({
-                message: "Bar eliminado",
+                message: "Mensaje eliminado",
 
             });
         };
