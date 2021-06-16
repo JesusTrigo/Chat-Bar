@@ -143,6 +143,8 @@ MessageRouter.delete("/remove_message/:id", checkToken, async (req, res, next) =
     try {
         const { id } = req.params;
 
+        const userid = req.user.id;
+
         let findMessage = await Msgs.findById(id)
 
         if (!findMessage) {
