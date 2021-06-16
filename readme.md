@@ -38,34 +38,35 @@ La idea de esta app surge a raíz de lo anteriormente expuesto, posibilitando as
 Usuario 
 > /users
 
-    GET:      /                       → ruta privada que muestra todos los usuarios
-    POST:     /signup                 → ruta pública para la creación de nueva cuenta
-              /login                  → ruta pública para ingresar en la app
+    GET:      /                          → ruta privada que muestra todos los usuarios
+    POST:     /signup                    → ruta pública para la creación de nueva cuenta
+              /login                     → ruta pública para ingresar en la app
                 
 Bares
 > /bares
 
-    POST:     /                        → crear un nuevo bar
-    GET:      /                        → ruta privada que muestra lista de bares con las keys: id, name, city y número de usuarios
-              /find/:id                → ruta privada que busca un bar por su id
-    PUT:      /add_user                → ruta privada que añade un usario a un bar, con la id de ambos
-              /remove_user             → ruta privada que elimina un usuario de un bar, con la id de ambos
-    DELETE:   /remove_bar              → ruta privada que elimina un bar por su id
+    POST:     /                           → crear un nuevo bar
+    GET:      /                           → ruta privada que muestra lista de bares con las keys: id, name, city y número de usuarios
+              /find/:id                   → ruta privada que busca un bar por su id
+    PUT:      /add_user                   → ruta privada que añade un usario a un bar, con la id de ambos
+              /remove_user                → ruta privada que elimina un usuario de un bar, con la id de ambos
+    DELETE:   /remove_bar                 → ruta privada que elimina un bar por su id
 
 Chat room
 
 > /chat_room
 
-    GET:       /find/:id               → ruta privada que busca una sala de chat por su id y la id de un usuario que se encuentre en ella
-    POST:      /new_room               → ruta privada que crea una sala de chat con la id de un bar y la id de un usuario que se 
-                                         encuentre dentro de éste
-
+    GET:       /find/:id                  → ruta privada que busca una sala de chat por su id y la id de un usuario que se encuentre en ella
+    POST:      /new_room                  → ruta privada que crea una sala de chat con la id de un bar y la id de un usuario que se 
+                                            encuentre dentro de éste
+    DELETE:    /remove_messages_room      → ruta privada que elimina todos los mensajes de una sala de chat, a través de la id de un 
+                                            usuario que se encuentre dentro
 Mensajes
 
 > /messages
 
-    PUT         /messages/add_message   → ruta privada que añade un mensaje a una sala de chat, mediante su id y la id del usuario que  
-                                          se encuentre dentro de la sala
+    PUT         /messages/add_message      → ruta privada que añade un mensaje a una sala de chat, mediante su id y la id del usuario que  
+                                             se encuentre dentro de la sala
 
 
 ## About
@@ -76,8 +77,18 @@ Mensajes
 
 Basado en Node.JS.
 Base de datos alojada en MongoAtlas. Llamadas a la BD y modelo de datos a través de Mongoose.
-Encriptamiento de datos (password) y protección de rutas privadas con bcrypt y jsonwebtoken.
-Direccionamiento con Express.
+ Encriptamiento de datos (password) y protección de rutas privadas con bcrypt y jsonwebtoken.
+ Direccionamiento con Express.
+
+## Dependencias
+
+- bcrypt: "^5.0.1",
+- dotenv: "^10.0.0",
+- express: "^4.17.1",
+- jsonwebtoken: "^8.5.1",
+- mongoose: "^5.12.12"
+
+Para el funcionamiento de la app, es necesario instalar las dependencias, usando el comando: **npm install**
 
 ## Middleware
 
@@ -95,5 +106,3 @@ Direccionamiento con Express.
 ## ToDo
 
 - Añadir roles: Admin/user
-
-> Dorothy followed her through many of the beautiful rooms in her castle.
