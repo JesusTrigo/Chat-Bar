@@ -1,6 +1,6 @@
 const { request } = require("express");
 const express = require("express");
-const { checkToken } = require("../middleware");
+const { checkToken, authRol } = require("../middleware");
 const Bar = require("../models/Bar");
 const User = require("../models/User");
 const BarRouter = express.Router();
@@ -56,7 +56,7 @@ BarRouter.get("/find/:id", checkToken, async (req, res) => {
 
 
 
-BarRouter.post("/", checkToken, async (req, res, next) => {
+BarRouter.post("/", checkToken, authRol, async (req, res, next) => {
     try {
         const { name, city } = req.body;
         if (!name || !city) {
@@ -103,7 +103,7 @@ BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
 
             return next({
                 success: false,
-                message: "El usuario ya está denro"
+                message: "El usuario ya está dentro del bar"
             });
         }
         if (!findUserModel) {
@@ -174,7 +174,7 @@ BarRouter.put("/remove_user/:id", checkToken, async (req, res, next) => {
 
 
 
-BarRouter.delete("/remove_bar/:id", checkToken, async (req, res, next) => {
+BarRouter.delete("/remove_bar/:id", checkToken, authRol, async (req, res, next) => {
 
     try {
         const { id } = req.params;

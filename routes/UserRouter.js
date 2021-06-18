@@ -3,7 +3,7 @@ const User = require("../models/User");
 const UserRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { checkToken } = require("../middleware");
+const { checkToken, authRol } = require("../middleware");
 const { JWT_SECRET } = process.env;
 
 UserRouter.get("/", (req, res) => {
@@ -45,47 +45,43 @@ UserRouter.get("/find/:id", async (req, res, next) => {
 
 
 
-//Crear nuevo usuario
+//Crear nuevo usuario admin
 
-// UserRouter.post("/", async (req, res, next) => {
-//     const { username, password, email, age, gender } = req.body;
-
-//     try {
-//         if (!username || !password || !email || !age || !gender) {
-//             return next({
-//                 status: 400,
-//                 message: "Por favor, rellene todos los campos"
-//             });
-//         };
-//         if (age < 18) {
-//             return next({
-//                 succes: false,
-//                 message: "Minimum age required: 18"
-//             })
-//         }
-
-//         let user = new User({
-//             username,
-//             password,
-//             email,
-//             age,
-//             gender
-//         });
-
-//         let newUser = await user.save()
-
-//         res.json({
-//             success: true,
-//             user: newUser
-//         });
-//     }
-//     catch (err) {
-//         return next({
-//             status: 400,
-//             message: err.message
-//         });
-//     }
-// });
+UserRouter.post("/", async (req, res, next) => {
+    const { username, password, email, age, gender } = req.body;
+    try {
+        if (!username || !password || !email || !age || !gender) {
+            return next({
+                status: 400,
+                message: "Por favor, rellene todos los campos"
+            });
+        };
+        if (age < 18) {
+            return next({
+                succes: false,
+                message: "Minimum age required: 18"
+            })
+        }
+        let user = new User({
+            username,
+            password,
+            email,
+            age,
+            gender
+        });
+        let newUser = await user.save()
+        res.json({
+            success: true,
+            user: newUser
+        });
+    }
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+    }
+});
 
 
 
@@ -95,7 +91,7 @@ UserRouter.post("/signup", async (req, res, next) => {
 
     try {
         const { username, password, age, email, gender } = req.body;
-        
+
         const findUser = await User.findOne({ username });
 
         var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -190,7 +186,7 @@ UserRouter.post("/signup", async (req, res, next) => {
 UserRouter.post("/login", async (req, res, next) => {
 
     try {
-        
+
         const { body: { username, password } } = req;
 
         const user = await User.findOne({ username });
@@ -206,7 +202,7 @@ UserRouter.post("/login", async (req, res, next) => {
 
         if (!match) {
             return next({
-                status: 403, 
+                status: 403,
                 message: "Wrong credentials (pass)"
             });
         }
@@ -245,10 +241,10 @@ UserRouter.delete("/remove_user/:id", async (req, res, next) => {
         }
         if (findBar) {
             return findBar.deleteOne(),
-            res.json({
-                message: "Bar eliminado",
+                res.json({
+                    message: "Bar eliminado",
 
-            });
+                });
         };
     }
 
@@ -260,6 +256,51 @@ UserRouter.delete("/remove_user/:id", async (req, res, next) => {
 
     }
 
+});
+
+
+
+UserRouter.post('/second_admin', checkToken, authRol, async (req, res, next) => {
+    try {
+
+        const { id } = req.user;
+        const { user } = req.body;
+        const findUser = await User.findById(user);
+
+        if (!user) {
+            return next({
+                status: 403,
+                message: 'Select a member ID'
+            });
+        }
+
+        if (findUser.id != findUser.id) {
+            return next({
+                status: 403,
+                message: 'Wrong ID'
+            });
+        }
+
+        if (findUser.rol != 0) {
+            return next({
+                status: 403,
+                message: 'This member is already admin'
+            });
+        } findUser.rol = 1
+
+        const updatedUser = await findUser.save();
+        return res.json({
+            success: true,
+            member: updatedUser,
+            message: 'Member is updated to Admin'
+        });
+
+    } catch (err) {
+        return next({
+            status: 500,
+            message: err.message
+        });
+    }
 });
 
 

@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    rol: {
+        type: Number,
+        default: 0
+    },
     gender: String
 });
 

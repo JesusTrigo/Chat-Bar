@@ -1,5 +1,6 @@
 
 const jwt = require("jsonwebtoken");
+const User = require("./models/User");
 
 let checkToken = (req, res, next) => {
     let token = req.headers["x-access-token"] || req.headers["authorization"];
@@ -24,6 +25,19 @@ let checkToken = (req, res, next) => {
     });
 };
 
+const authRol = async (req, res, next) => {
+    const { id } = req.user
+    const user = await User.findById(id);
+
+    if (user.rol != 1) {
+        return next({
+            status: 401,
+            message: "Not allowed"
+        });
+    }
+    next();
+}
+
 
 const errorHandler = (err, req, res, next) => {
     console.error(err);
@@ -36,5 +50,6 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     errorHandler,
-    checkToken
+    checkToken,
+    authRol
 };

@@ -1,11 +1,12 @@
 const express = require("express");
-const { checkToken } = require("../middleware");
+const { checkToken, authRol } = require("../middleware");
 const Bar = require("../models/Bar");
 const ChatRoom = require("../models/ChatRoom");
+const Msgs = require("../models/Msgs");
 const User = require("../models/User");
 const ChatRoomRouter = express.Router();
 
-ChatRoomRouter.get("/", checkToken, async (req, res, next) => {
+ChatRoomRouter.get("/", checkToken, authRol, async (req, res, next) => {
     try {
 
         let chatroom = await ChatRoom.find({})
@@ -141,7 +142,7 @@ ChatRoomRouter.delete("/remove_room/:id", checkToken, async (req, res, next) => 
     try {
         const { id } = req.params;
 
-        const userid = req.body.userid
+        const userid = req.user.id
 
         let findChatRoom = await ChatRoom.findById(id)
 
@@ -151,40 +152,6 @@ ChatRoomRouter.delete("/remove_room/:id", checkToken, async (req, res, next) => 
                 message: "La sala de chat introducida no existe"
             });
         };
-        if (!userid) {
-            return next({
-                status: 400,
-                message: "El usuario no está dentro de la sala de chat"
-            });
-        };
-        if (findChatRoom) {
-            findChatRoom.deleteOne(),
-                res.json({
-                    message: "Sala de chat eliminada"
-
-                });
-        };
-    }
-
-    catch (err) {
-        return next({
-            status: 400,
-            message: err.message
-        });
-
-    }
-
-});
-
-ChatRoomRouter.delete("/remove_messages_room/:id", checkToken, async (req, res, next) => {
-
-    try {
-        const { id } = req.params;
-
-        const userid = req.user.id
-
-        let findChatRoom = await ChatRoom.findById(id)
-
         if (!findChatRoom.users.includes(userid)) {
 
             return next({
@@ -192,26 +159,17 @@ ChatRoomRouter.delete("/remove_messages_room/:id", checkToken, async (req, res, 
                 message: "El usuario no se encuentra dentro de la sala de chat"
             });
         };
-        if (!findChatRoom) {
-            return next({
-                status: 400,
-                message: "La sala de chat introducida no existe"
-            });
+        
+        for (let messageId of findChatRoom.messages) {
+            let message = await Msgs.findById(messageId);
+            await message.deleteOne()
         };
-        if (findChatRoom.messages == "") {
-            return next({
-                success: false,
-                message: "no hay mensajes"
-            });
-        }
-        await findChatRoom.messages.splice(0, 999)
 
-        let newchatRm = await findChatRoom.save()
-
-        res.json({
+        await findChatRoom.deleteOne()
+        res.json ({
             success: true,
-            findChatRoom: newchatRm
-        });
+            message: "Sala de chat eliminada"
+        })
 
     }
 
@@ -224,6 +182,7 @@ ChatRoomRouter.delete("/remove_messages_room/:id", checkToken, async (req, res, 
     }
 
 });
+
 
 
 module.exports = ChatRoomRouter;
