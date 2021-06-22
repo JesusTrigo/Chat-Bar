@@ -45,46 +45,6 @@ UserRouter.get("/find/:id", async (req, res, next) => {
 
 
 
-//Crear nuevo usuario admin
-
-UserRouter.post("/", async (req, res, next) => {
-    const { username, password, email, age, gender } = req.body;
-    try {
-        if (!username || !password || !email || !age || !gender) {
-            return next({
-                status: 400,
-                message: "Por favor, rellene todos los campos"
-            });
-        };
-        if (age < 18) {
-            return next({
-                succes: false,
-                message: "Minimum age required: 18"
-            })
-        }
-        let user = new User({
-            username,
-            password,
-            email,
-            age,
-            gender
-        });
-        let newUser = await user.save()
-        res.json({
-            success: true,
-            user: newUser
-        });
-    }
-    catch (err) {
-        return next({
-            status: 400,
-            message: err.message
-        });
-    }
-});
-
-
-
 //Signup
 
 UserRouter.post("/signup", async (req, res, next) => {
@@ -225,7 +185,6 @@ UserRouter.post("/login", async (req, res, next) => {
 
 //Eliminar usuario
 
-
 UserRouter.delete("/remove_user/:id", async (req, res, next) => {
 
     try {
@@ -259,6 +218,8 @@ UserRouter.delete("/remove_user/:id", async (req, res, next) => {
 });
 
 
+
+// ascender a admin
 
 UserRouter.post('/second_admin', checkToken, authRol, async (req, res, next) => {
     try {
