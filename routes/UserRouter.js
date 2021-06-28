@@ -167,7 +167,7 @@ UserRouter.post("/login", async (req, res, next) => {
             });
         }
 
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24h" });
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "24d" });
 
         return res.json({
             success: true,

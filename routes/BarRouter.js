@@ -12,19 +12,19 @@ BarRouter.get("/", async (req, res, next) => {
 
         let bars = await Bar.find({})
 
-        let reformedBar = bars.map(bar => {
+        // let reformedBar = bars.map(bar => {
 
-            return {
-                _id: bar._id,
-                name: bar.name,
-                city: bar.city,
-                users: bar.users.length
-            };
-        });
+        //     return {
+        //         _id: bar._id,
+        //         name: bar.name,
+        //         city: bar.city,
+        //         users: bar.users.length
+        //     };
+        // });
 
         return res.json({
             success: true,
-            bars: reformedBar
+            bars //: reformedBar
         });
     } catch (error) {
         return next({
@@ -36,11 +36,13 @@ BarRouter.get("/", async (req, res, next) => {
 });
 
 
-BarRouter.get("/find/:id", checkToken, async (req, res) => {
+BarRouter.get("/find/:id", checkToken, async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        let bar = await Bar.findById(id).select(["-__v"]).populate("users", ["username", "age", "gender"])
+        let bar = await Bar.findById(id).populate("users", ["username", "age", "gender"])
+        //.select(["-__v"]).populate("users", ["username", "age", "gender"])
+        
 
         return res.json({
             success: true,

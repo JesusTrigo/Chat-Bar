@@ -106,13 +106,13 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
                 message: "Introduzca un bar válido"
             });
         }
-        if (!findBar.users.includes(user1) || !findBar.users.includes(user2)) {
+        // if (!findBar.users.includes(user1) || !findBar.users.includes(user2)) {
 
-            return res.json({
-                success: false,
-                message: "Usuario no está dentro el bar"
-            });
-        }
+        //     return res.json({
+        //         success: false,
+        //         message: "Usuario no está dentro el bar"
+        //     });
+        // }
         let chatroom = new ChatRoom({
             users: [user1, user2],
             messages: [],
