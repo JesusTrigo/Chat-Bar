@@ -91,8 +91,8 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
             });
         };
         if (user1 === user2) {
-            return res.json({
-                success: false,
+            return next({
+                status: 400,
                 message: "No puede haber dos usuarios iguales"
             });
         };
@@ -106,13 +106,13 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
                 message: "Introduzca un bar válido"
             });
         }
-        // if (!findBar.users.includes(user1) || !findBar.users.includes(user2)) {
+        if (!findBar.users.includes(user1) || !findBar.users.includes(user2)) {
 
-        //     return res.json({
-        //         success: false,
-        //         message: "Usuario no está dentro el bar"
-        //     });
-        // }
+            return res.json({
+                success: false,
+                message: "Usuario no está dentro el bar"
+            });
+        }
         let chatroom = new ChatRoom({
             users: [user1, user2],
             messages: [],
@@ -159,14 +159,14 @@ ChatRoomRouter.delete("/remove_room/:id", checkToken, async (req, res, next) => 
                 message: "El usuario no se encuentra dentro de la sala de chat"
             });
         };
-        
+
         for (let messageId of findChatRoom.messages) {
             let message = await Msgs.findById(messageId);
             await message.deleteOne()
         };
 
         await findChatRoom.deleteOne()
-        res.json ({
+        res.json({
             success: true,
             message: "Sala de chat eliminada"
         })

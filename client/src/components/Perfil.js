@@ -38,7 +38,7 @@ const Perfil = () => {
             bar: barid
         }
         const headers = {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwY2I2OWVmN2FiMjgwMmM2ODIyNjExZSIsImlhdCI6MTYyNDY1NDY5OSwiZXhwIjoxNjI2NzI4Mjk5fQ.cxqYaxX61j03dq6oCoLj6C7pBi-ts9qsf9uJLHbv20c"
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZDVlY2I1NWVlYWY2Mzg5MDBkZGNlZSIsImlhdCI6MTYyNDk3NTYzMiwiZXhwIjoxNjI3MDQ5MjMyfQ.hNrZ-gNRuKjEjekTEwFmG9bnhxUcKNz4F06ORQqEl2U"
         };
         const response = await axios.post(`http://localhost:5000/chat_room/new_room`, body, { headers })
 

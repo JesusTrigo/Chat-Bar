@@ -12,6 +12,7 @@ import NavBar from './components/NavBar';
 import Bar from './components/Bar';
 import Perfil from './components/Perfil';
 import ChatRoom from './components/ChatRoom';
+import Signup from './components/Signup';
 
 const App = () => {
   return (
@@ -39,6 +40,13 @@ const App = () => {
             </Route>
             <Route path="/chat/:id">
               <ChatRoom />
+            </Route>
+
+            <Route path="/signup">
+            <Signup />
+            </Route>
+            <Route path="/login">
+
             </Route>
           </Switch>
 

@@ -56,6 +56,12 @@ UserRouter.post("/signup", async (req, res, next) => {
 
         var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
+        if(!username || !password || !age || !email || !gender) {
+            return next({
+                status: 400,
+                message: `Por favor, rellene todos los campos`
+            });
+        }
         if (!username) {
             return next({
                 status: 400,
