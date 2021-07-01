@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Messages from "./Messages";
+import NuevoMensaje from "./NuevoMensaje";
 
 const ChatRoom = () => {
 
@@ -29,20 +31,20 @@ const ChatRoom = () => {
         <div>
             {chat &&
                 <div>
-                    <p>{chat._id}</p>
-                    <ul>
-                        {chat.users.map((sala, i) => {
+                    <div>
+                        {chat.users.map((user, i) => {
                             return (
-                                <li key={i}>
-                                    <p>{sala.username}</p>
-                                </li>
+                                <p key={i}>{user.username}</p>
                             )
                         })}
-                    </ul>
+                    </div>
+                    <Messages msgs={chat.messages} />
+                    <NuevoMensaje />
                 </div>}
         </div>
     );
 };
+
 
 
 

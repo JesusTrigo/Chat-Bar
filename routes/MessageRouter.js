@@ -77,7 +77,9 @@ MessageRouter.get("/find/:id", checkToken, async (req, res, next) => {
 
 
 
-MessageRouter.put("/add_message/:id", checkToken, async (req, res, next) => {
+//cambiado de put
+
+MessageRouter.post("/add_message/:id", checkToken, async (req, res, next) => {
 
     try {
         const { id } = req.params; //id del chatroom

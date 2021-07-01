@@ -58,7 +58,16 @@ ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
             });
         }
 
-        ChatRoom.findById(id).populate("users", ["username", "age", "gender"])
+        ChatRoom.findById(id)
+        .populate("users", ["username", "age", "gender"])
+        .populate("messages")
+        .populate({
+            path: "messages",
+            populate: {
+                path: "user",
+                select: "username"
+            }
+        })
         // .select(["-_id", "-__v"]).populate("users", ["username", "age", "gender"])
             .exec((err, chatroom) => {
                 res.json({

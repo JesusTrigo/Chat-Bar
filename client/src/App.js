@@ -14,6 +14,7 @@ import Perfil from './components/Perfil';
 import ChatRoom from './components/ChatRoom';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import Messages from './components/Messages';
 
 const App = () => {
   return (
@@ -42,7 +43,9 @@ const App = () => {
             <Route path="/chat/:id">
               <ChatRoom />
             </Route>
-
+            <Route path="/message/:id" exact={true}>
+              <Messages />
+            </Route>
             <Route path="/signup">
               <Signup />
             </Route>
