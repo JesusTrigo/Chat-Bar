@@ -10,13 +10,15 @@ const Bar = () => {
     const { id } = useParams();
 
     const [bar, setBar] = useState();
+    
 
     useEffect(() => {
         const getBar = async () => {
+            const token = localStorage.getItem("token");
             const response = await axios(`http://localhost:5000/bares/find/${id}`,
                 {
                     headers: {
-                        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZDVlY2I1NWVlYWY2Mzg5MDBkZGNlZSIsImlhdCI6MTYyNDk3NTYzMiwiZXhwIjoxNjI3MDQ5MjMyfQ.hNrZ-gNRuKjEjekTEwFmG9bnhxUcKNz4F06ORQqEl2U"
+                        "Authorization": token
                     }
                 })
             console.log(response)

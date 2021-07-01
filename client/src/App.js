@@ -13,6 +13,7 @@ import Bar from './components/Bar';
 import Perfil from './components/Perfil';
 import ChatRoom from './components/ChatRoom';
 import Signup from './components/Signup';
+import Login from './components/Login';
 
 const App = () => {
   return (
@@ -43,10 +44,10 @@ const App = () => {
             </Route>
 
             <Route path="/signup">
-            <Signup />
+              <Signup />
             </Route>
             <Route path="/login">
-
+              <Login />
             </Route>
           </Switch>
 

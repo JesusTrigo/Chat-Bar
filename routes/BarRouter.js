@@ -42,7 +42,7 @@ BarRouter.get("/find/:id", checkToken, async (req, res, next) => {
 
         let bar = await Bar.findById(id).populate("users", ["username", "age", "gender"])
         //.select(["-__v"]).populate("users", ["username", "age", "gender"])
-        
+
 
         return res.json({
             success: true,
@@ -57,8 +57,8 @@ BarRouter.get("/find/:id", checkToken, async (req, res, next) => {
 });
 
 
-
-BarRouter.post("/", checkToken, authRol, async (req, res, next) => {
+// poner authRol en la ruta post
+BarRouter.post("/", checkToken, async (req, res, next) => {
     try {
         const { name, city } = req.body;
         if (!name || !city) {
@@ -94,6 +94,53 @@ BarRouter.put("/add_user/:id", checkToken, async (req, res, next) => {
     try {
 
         const { id } = req.params;
+        const userid = req.user.id;
+
+        let findUserModel = await User.findById(userid);
+
+        let bar = await Bar.findById(id)
+
+
+        if (bar.users.includes(userid)) {
+
+            return next({
+                success: false,
+                message: "El usuario ya está dentro del bar"
+            });
+        }
+        if (!findUserModel) {
+            return next({
+                succes: false,
+                message: "El usuario no existe"
+            })
+        }
+
+        bar.users.push(userid);
+
+        let newBar = await bar.save()
+
+        res.json({
+            success: true,
+            bar: newBar
+        });
+    } catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+
+    }
+
+});
+
+
+
+//ruta añadir user en frontend
+
+BarRouter.post("/add_user/:id", async (req, res, next) => {
+
+    try {
+
         const userid = req.user.id;
 
         let findUserModel = await User.findById(userid);

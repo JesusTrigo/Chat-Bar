@@ -58,7 +58,8 @@ ChatRoomRouter.get("/find/:id", checkToken, async (req, res, next) => {
             });
         }
 
-        ChatRoom.findById(id).select(["-_id", "-__v"]).populate("users", ["username", "age", "gender"])
+        ChatRoom.findById(id).populate("users", ["username", "age", "gender"])
+        // .select(["-_id", "-__v"]).populate("users", ["username", "age", "gender"])
             .exec((err, chatroom) => {
                 res.json({
                     success: true,
@@ -82,11 +83,11 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
 
         const user1 = req.user.id
 
-        const { user2, bar } = req.body;
+        const { user2, bar, chatid } = req.body;
 
         if (!user1 || !user2 || !bar) {
-            return res.json({
-                success: false,
+            return next({
+                status:400,
                 message: "Por favor, rellene todos los campos"
             });
         };
@@ -101,18 +102,26 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
 
         if (!findBar) {
 
-            return res.json({
-                success: false,
+            return next({
+                status: 400,
                 message: "Introduzca un bar válido"
             });
         }
         if (!findBar.users.includes(user1) || !findBar.users.includes(user2)) {
 
-            return res.json({
-                success: false,
+            return next({
+                status: 400,
                 message: "Usuario no está dentro el bar"
             });
         }
+        // let findChatRoom = await ChatRoom.findById(chatid);
+
+        // if(findChatRoom) {
+        //     return next({
+        //         status: 400,
+        //         message: "Chat Room ya existente"
+        //     });
+        // }
         let chatroom = new ChatRoom({
             users: [user1, user2],
             messages: [],
@@ -125,6 +134,7 @@ ChatRoomRouter.post("/new_room", checkToken, async (req, res, next) => {
             success: true,
             chatroom: newChatRoom
         });
+
 
     } catch (err) {
 

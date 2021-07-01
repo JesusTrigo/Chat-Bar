@@ -78,6 +78,7 @@ const Signup = () => {
 
                 <button
                     type="submit"
+                    className="btn btn-primary"
                     onClick={handleClick}
                 >Register
                 </button>

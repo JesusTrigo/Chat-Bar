@@ -5,11 +5,17 @@ const Home = () => {
     return (
         <div>
             <Link to={`/login`} >
-                <button>Iniciar sesión</button>
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                >Iniciar sesión</button>
             </Link>
             <hr />
             <Link to={`/signup`} >
-                <button>Registrarse</button>
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                >Registrarse</button>
             </Link>
         </div>
     );
