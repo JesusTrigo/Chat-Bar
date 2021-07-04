@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 
@@ -10,6 +10,8 @@ const Bares = () => {
     const [bars, setBares] = useState();
 
     let history = useHistory();
+
+    const [successMessage, setSuccessMessage] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -44,6 +46,7 @@ const Bares = () => {
         }
         catch (error) {
             console.log(error.response.data)
+            setSuccessMessage(error.response.data.message)
         }
     }
 
@@ -61,6 +64,11 @@ const Bares = () => {
                     )
                 })
             }
+            <div
+                className="alertBox"
+                style={{ display: successMessage ? "block" : "none" }}>
+                {successMessage}
+            </div>
         </div>
     );
 };

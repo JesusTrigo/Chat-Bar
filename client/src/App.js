@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,16 +14,35 @@ import ChatRoom from './components/ChatRoom';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Messages from './components/Messages';
+import axios from 'axios';
 
 const App = () => {
+
+  
+  const [user, setUser] = useState();
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token")
+    const response = await axios("http://localhost:5000/users/find", {
+      headers: {
+        "Authorization": token
+      }
+    })
+    setUser(response.data.user)
+  }
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUser()
+    }
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
 
         <Router>
 
-          <Route>
+          <Route path="/:x">
             <NavBar />
           </Route>
           <Switch>
@@ -50,7 +68,9 @@ const App = () => {
               <Signup />
             </Route>
             <Route path="/login">
-              <Login />
+              <Login getUser={getUser}/>
+            </Route>
+            <Route path="*" component={() => "404 NOT FOUND"}>
             </Route>
           </Switch>
 

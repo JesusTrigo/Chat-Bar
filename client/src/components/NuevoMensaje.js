@@ -1,9 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import Messages from "./Messages";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-const NuevoMensaje = () => {
+const NuevoMensaje = ({ updateChat }) => {
 
     const { id } = useParams();
     const [nuevoMsg, setnuevoMsg] = useState("");
@@ -27,7 +26,7 @@ const NuevoMensaje = () => {
 
             console.log(response.data)
 
-
+            updateChat();
         }
         catch (error) {
             console.log(error.response.data)
@@ -42,8 +41,9 @@ const NuevoMensaje = () => {
                 onChange={(e) => setnuevoMsg(e.target.value)}
             />
             <button
+                className="form-control btn btn-primary"
                 onClick={handleClick}
-                className="btn btn-primary form-control">
+            >
                 Enviar
             </button>
         </div>

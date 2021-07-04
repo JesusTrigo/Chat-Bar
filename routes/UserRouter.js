@@ -23,11 +23,12 @@ UserRouter.get("/", (req, res) => {
         });
 });
 
-UserRouter.get("/find/:id", async (req, res, next) => {
-    const { id } = req.params;
+UserRouter.get("/find/:id", checkToken, async (req, res, next) => {
+
+    const { id } = req.user;
     try {
 
-        let user = await User.findById(id).select(["-password", "-__v", "-_id"])
+        let user = await User.findById(id).select(["-password", "-__v"])
 
         return res.json({
             success: true,

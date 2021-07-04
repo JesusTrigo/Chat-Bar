@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import chatbar from "../images/chatbar.png";
 
 const Home = () => {
     return (
         <div>
+            <img src={chatbar} alt="Imagen" />
+            <hr />
             <Link to={`/login`} >
                 <button
                     type="submit"

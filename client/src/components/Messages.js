@@ -1,12 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Messages = ({msgs}) => {
+const Messages = ({ msgs }) => {
 
 
     return (
-        <div>
-            <h1>Soy el cuadro de mensajes</h1>
+        <div className="msgsBox">
+
             {msgs &&
                 msgs.map((msg) => {
                     return (
