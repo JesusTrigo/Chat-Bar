@@ -51,21 +51,23 @@ const Bares = () => {
     }
 
     return (
-        <div className="App">
-            {bars &&
-                bars.map((bar) => {
-                    return (
-                        <button
-                            className="btn btn-primary"
-                            key={bar._id}
-                            onClick={() => addUser(bar._id)}>
-                            <p>{bar.name}</p>
-                        </button>
-                    )
-                })
-            }
+        <div>
+            <div className="baresList">
+                {bars &&
+                    bars.map((bar) => {
+                        return (
+                            <button
+                                className="btn btn-primary barBtn"
+                                key={bar._id}
+                                onClick={() => addUser(bar._id)}>
+                                <p>{bar.name}</p>
+                            </button>
+                        )
+                    })
+                }
+            </div>
             <div
-                className="alertBox"
+                
                 style={{ display: successMessage ? "block" : "none" }}>
                 {successMessage}
             </div>

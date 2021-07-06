@@ -15,15 +15,18 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Messages from './components/Messages';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const App = () => {
 
-  
+
   const [user, setUser] = useState();
 
   const getUser = async () => {
     const token = localStorage.getItem("token")
-    const response = await axios("http://localhost:5000/users/find", {
+    const response = await axios("http://localhost:5000/users/myProfile", {
       headers: {
         "Authorization": token
       }
@@ -68,7 +71,7 @@ const App = () => {
               <Signup />
             </Route>
             <Route path="/login">
-              <Login getUser={getUser}/>
+              <Login getUser={getUser} />
             </Route>
             <Route path="*" component={() => "404 NOT FOUND"}>
             </Route>

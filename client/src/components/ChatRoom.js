@@ -23,30 +23,30 @@ const ChatRoom = () => {
 
 
     };
-
+//return se ejecuta cuando sale del componente chatRoom
     useEffect(() => {
-        setTimeout(() => {
-            getChat();
-        }, 1000);
-
+        let myInterval = setInterval(getChat, 1000);
+        return () => {
+            clearInterval(myInterval)
+        }
     }, [id]);
 
     return (
         <div>
             {chat &&
-                <div>
-                    <div>
-                        <ul className="chatUsers">
-                            {chat.users.map((user, i) => {
-                                return (
-                                    <li
-                                        className="form-control"
-                                        key={i}>{user.username}
-                                    </li>
-                                )
-                            })}
-                        </ul>
+                <div className="chatPage">
+
+                    <div className="chatUsers">
+                        {chat.users.map((user, i) => {
+                            return (
+                                <p
+                                    className="form-control"
+                                    key={i}>{user.username}
+                                </p>
+                            )
+                        })}
                     </div>
+
                     <div>
                         <Messages msgs={chat.messages} />
                     </div>

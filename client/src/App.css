@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 10vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,82 +13,70 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+p {
+  font-family: 'Baloo Bhaina 2';
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /*--NAVBAR*/
 
-
-
 .navbar-sticky {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  display: flex;
+  justify-content: space-between;
+  left: -8px;
 }
 
 .navbarLink {
   text-decoration: none;
   margin-inline: 10px;
   font-size: 20px;
+  color: cornflowerblue;
 }
 
-.grid{
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(40, 1fr);
+.navbarButton {
+  border: none;
+  background: none;
+  color: cornflowerblue;
+  font-size: 20px;
 }
 
-.header{
-    grid-column: 1 / 11;
-    grid-row: 1 / 5;
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    background-color: rgb(46, 46, 46);
-    align-items: center;
-    text-decoration: none;
-    border: 2px solid black;
+.navImg {
+  width: 34%;
 }
-.header div{
-    width: 20%;
-}
-.header img{
-    width: 100%;
-}
-.header h1{
-    padding-left: 10px;
-    color: white;
+
+.navLinks {
+  align-self: center;
+  width: 40%;
 }
 
 /* LOGIN */
 
-.login-inputs {
-  display: flex;
-  flex-direction: column;
+.loginInputs {
+  padding: 10px;
 }
 
-.login-user-pass {
-  padding: 20px;
+.loginInputsButton {
+  margin-top: 40px;
 }
 
-.login-btn {
-  padding-top: 40px;
+.loginImg {
+  padding-bottom: 40px;
+}
+
+.loginHr {
+  height: 4px;
+  border-radius: 100%;
+  color: #a0b9d1;
 }
 
 /* CHATROOM */
 
 .chatUsers {
   display: flex;
+  margin-top: 60px;
 }
 
 .alertBox {
@@ -112,4 +89,62 @@
 .msgsBox {
   height: 360px;
   overflow: scroll;
+  border: solid 1px black;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: antiquewhite;
+  color: black;
+}
+
+.chatPage {
+  width: 300px;
+}
+
+
+
+/* BARES */
+
+.baresList {
+  display: flex;
+  flex-direction: column;
+}
+
+.barlist {
+  
+}
+
+.alertBoxBar {
+  width: 200px;
+  margin-top: 10px;
+  position: fixed;
+  text-align: center;
+}
+
+.barBtn {
+  margin-bottom: 10px;
+}
+
+
+/* HOME */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.hrHome {
+  height: 4px;
+  border-radius: 100%;
+  color: #a0b9d1;
+}
+
+.homeImg {
+  padding-bottom: 100px;
+}
+
+.homeButtons {
+  display: flex;
+  flex-direction: column;
 }

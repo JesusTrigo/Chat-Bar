@@ -30,49 +30,42 @@ const Login = ({ getUser }) => {
         }
         catch (error) {
             console.log(error.response.data)
-        }
-    }
+            setSuccessMessage(error.response.data.message)
+        };
+    };
 
     return (
-        <div className="App">
-            <img src={chatbar} alt="Imagen" />
-            <form>
-                <div className="login-inputs-btn">
-                    <div className="login-inputs">
-                        <div className="login-user-pass">
-                            <input
-                                className="form-control"
-                                placeholder="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                        </div>
-                        <div className="login-user-pass">
-                            <input
-                                className="form-control"
-                                placeholder="Password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className="login-btn">
-                        <button
-                            type="submit"
-                            className="btn btn-primary form-control"
-                            onClick={handleClick}
-                        >Login
-                        </button>
-                    </div>
-                </div>
+        <div className="home">
+            <img src={chatbar} alt="Imagen" className="loginImg" />
+            <div className="homeButtons">
+                <input
+                    className="form-control"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <hr className="loginHr" />
+                <input
+                    className="form-control"
+                    placeholder="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <hr className="loginHr" />
+                <button
+                    type="submit"
+                    className="btn btn-primary form-control homeButton"
+                    onClick={handleClick}
+                >Login
+                </button>
                 <div style={{ display: successMessage ? "block" : "none" }}>
                     {successMessage}
                 </div>
-            </form>
+            </div>
         </div>
-    )
-}
+    );
+};
 
 
 

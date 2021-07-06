@@ -29,7 +29,7 @@ const Signup = () => {
             const response = await axios.post("http://localhost:5000/users/signup", body)
             console.log(response)
             setSuccessMessage("Usuario creado correctamente")
-            
+
             setTimeout(() => {
                 history.push("/login");
             }, 2000);
@@ -41,69 +41,57 @@ const Signup = () => {
     };
     return (
         <div className="App">
-            <img src={chatbar} alt="Imagen" />
-            <form>
-                <div>
-                    <input
-                        placeholder="Username"
-                        className="form-control"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        placeholder="Password"
-                        className="form-control"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        placeholder="Age"
-                        className="form-control"
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        placeholder="Email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <input
-                        placeholder="Gender"
-                        className="form-control"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                    />
-                </div>
-
-                <button
-                    type="submit"
-                    className="btn btn-primary form-control"
-                    onClick={handleClick}
-                >Register
-                </button>
-            </form>
+            <input
+                placeholder="Username"
+                className="form-control"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <hr />
+            <input
+                placeholder="Password"
+                className="form-control"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <hr />
+            <input
+                placeholder="Age"
+                className="form-control"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+            />
+            <hr />
+            <input
+                placeholder="Email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <hr />
+            <input
+                placeholder="Gender"
+                className="form-control"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+            />
+            <hr />
+            <button
+                type="submit"
+                className="btn btn-primary form-control"
+                onClick={handleClick}
+            >Register
+            </button>
             <div
-            className="alertBox"
-            style={{ display: successMessage ? "block" : "none" }}>
+                className="alertBox"
+                style={{ display: successMessage ? "block" : "none" }}>
                 {successMessage}
             </div>
         </div>
-    )
+    );
 
-
-
-
-}
+};
 
 
 

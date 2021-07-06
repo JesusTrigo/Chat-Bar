@@ -1,11 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import chatbar from "../images/chatbar.png";
 
 const NavBar = () => {
+
+    let history = useHistory();
+
+    const logout = () => {
+
+        localStorage.removeItem("token")
+
+        history.push("/");
+    }
+
     return (
         <div className="navbar-sticky">
-            <Link className="navbarLink" to="/">Home</Link>
-            <Link className="navbarLink" to="/bares">Bares</Link>
+            <div className="navImg">
+                <img src={chatbar} alt="Imagen" className="navImg" />
+            </div>
+            <div className="navLinks">
+                
+                <button className="navbarButton" onClick={logout}>LogOut</button>
+
+                <Link className="navbarLink" to="/bares">Bares</Link>
+            </div>
         </div>
     );
 };

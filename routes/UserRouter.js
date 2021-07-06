@@ -23,9 +23,30 @@ UserRouter.get("/", (req, res) => {
         });
 });
 
-UserRouter.get("/find/:id", checkToken, async (req, res, next) => {
+UserRouter.get("/myProfile", checkToken, async (req, res, next) => {
 
     const { id } = req.user;
+    try {
+
+        let user = await User.findById(id).select(["-password", "-__v"])
+
+        return res.json({
+            success: true,
+            user
+        });
+    }
+    catch (err) {
+        return next({
+            status: 400,
+            message: err.message
+        });
+    }
+
+});
+
+UserRouter.get("/find/:id", checkToken, async (req, res, next) => {
+
+    const { id } = req.params;
     try {
 
         let user = await User.findById(id).select(["-password", "-__v"])
@@ -57,7 +78,7 @@ UserRouter.post("/signup", async (req, res, next) => {
 
         var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-        if(!username || !password || !age || !email || !gender) {
+        if (!username || !password || !age || !email || !gender) {
             return next({
                 status: 400,
                 message: `Por favor, rellene todos los campos`
@@ -158,10 +179,17 @@ UserRouter.post("/login", async (req, res, next) => {
 
         const user = await User.findOne({ username });
 
+        if (!username || !password) {
+            return next({
+                status: 403,
+                message: "Rellene todos los campos"
+            });
+        }
+
         if (!user) {
             return next({
                 status: 403,
-                message: "Wrong credentials (Username)"
+                message: "Nombre de usuario incorrecto"
             });
         }
 
@@ -170,7 +198,7 @@ UserRouter.post("/login", async (req, res, next) => {
         if (!match) {
             return next({
                 status: 403,
-                message: "Wrong credentials (pass)"
+                message: "Contraseña erróena"
             });
         }
 
