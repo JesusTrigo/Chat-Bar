@@ -101,6 +101,23 @@ p {
   width: 300px;
 }
 
+.nombresChat {
+  color: #ff9a14;
+}
+
+.usersChatroom {
+  margin-left: 70px;
+  border-radius: 10px;
+  border-color: #4f5253;
+  color: #ff9a14;
+}
+
+.crearChatBtn {
+  position: absolute;
+  right: 112px;
+  top: 570px;
+}
+
 
 
 /* BARES */
@@ -110,8 +127,25 @@ p {
   flex-direction: column;
 }
 
-.barlist {
-  
+.barList {
+  list-style: none;
+  font-size: 20px;
+  text-align: initial;
+  margin-right: 26px;
+}
+
+.barCity {
+  font-size: 20px;
+  position: absolute;
+  top: 112px;
+  border: solid;
+  border-radius: 10px;
+  padding: 12px;
+  background-color: #224961;
+  border-color: #4f5253;
+  color: #929d9a;
+  width: 300px;
+  right: 34px;
 }
 
 .alertBoxBar {
@@ -125,6 +159,11 @@ p {
   margin-bottom: 10px;
 }
 
+.salirBtn {
+  position: absolute;
+  bottom: 42px;
+  left: 160px;
+}
 
 /* HOME */
 
@@ -147,4 +186,9 @@ p {
 .homeButtons {
   display: flex;
   flex-direction: column;
+}
+
+.buttonColor {
+  background: #3c5475;
+  width: -webkit-fill-available;
 }

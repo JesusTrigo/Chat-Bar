@@ -41,7 +41,7 @@ const NuevoMensaje = ({ updateChat }) => {
                 onChange={(e) => setnuevoMsg(e.target.value)}
             />
             <button
-                className="form-control btn btn-primary"
+                className="buttonColor btn btn-primary"
                 onClick={handleClick}
             >
                 Enviar

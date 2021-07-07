@@ -55,7 +55,7 @@ const Login = ({ getUser }) => {
                 <hr className="loginHr" />
                 <button
                     type="submit"
-                    className="btn btn-primary form-control homeButton"
+                    className="btn btn-primary buttonColor"
                     onClick={handleClick}
                 >Login
                 </button>

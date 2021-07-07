@@ -71,6 +71,16 @@ Mensajes
     DELETE:     /remove_messages           → ruta privada que elimina un mensaje en concreto a través de su id
 
 
+## Wireframes
+
+<img src="./images/home.png" alt="..." width="180">
+<img src="./images/login.png" alt="..." width="180">
+<img src="./images/signup.png" alt="..." width="180">
+<img src="./images/bares.png" alt="..." width="180">
+<img src="./images/bar.png" alt="..." width="180">
+<img src="./images/perfil.png" alt="..." width="180">
+<img src="./images/chatroom.png" alt="..." width="180">
+
 ## About
 
 - Current version: V1.0
@@ -104,9 +114,11 @@ Para el funcionamiento de la app, es necesario instalar las dependencias, usando
 - JavaScript
 - Node.JS v14.16.0.
 - MongoDB
+- React
 
 ## ToDo
 
-- Añadir roles: Admin/user
+- Añadir enlace a navbar para ver los chats del usuario
+- Mejorar sistema de chat con Socket
 - Añadir la posibilidad de cambio de credenciales
-- Añadir más validaciones en general
+- Mejorar el estilo

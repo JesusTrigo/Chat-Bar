@@ -79,9 +79,9 @@ const Signup = () => {
             <hr />
             <button
                 type="submit"
-                className="btn btn-primary form-control"
+                className="btn btn-primary buttonColor"
                 onClick={handleClick}
-            >Register
+            >Registro
             </button>
             <div
                 className="alertBox"

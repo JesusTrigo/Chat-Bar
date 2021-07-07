@@ -3,3 +3,4 @@
 [0705/091401.451:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
 [0705/144545.780:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
 [0705/175952.327:ERROR:file_io.cc(90)] ReadExactly: expected 36, observed 0
+[0707/002956.758:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)

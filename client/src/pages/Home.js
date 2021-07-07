@@ -11,14 +11,14 @@ const Home = () => {
                     <button
 
                         type="submit"
-                        className="btn btn-primary form-control homeButton"
+                        className="btn btn-primary buttonColor"
                     >Iniciar sesión</button>
                 </Link>
                 <hr className="hrHome" />
                 <Link to={`/signup`} >
                     <button
                         type="submit"
-                        className="btn btn-primary form-control homeButton"
+                        className="btn btn-primary buttonColor"
                     >Registrarse</button>
                 </Link>
             </div>

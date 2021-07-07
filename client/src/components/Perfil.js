@@ -60,14 +60,14 @@ const Perfil = () => {
             {user &&
                 <div>
 
-                    <p>{user.username}</p>
-                    <p>{user.age}</p>
-                    <p>{user.gender}</p>
+                    <p><span className="nombresChat">Nombre</span> <br /> {user.username}</p>
+                    <p><span className="nombresChat">Edad</span> <br /> {user.age}</p>
+                    <p><span className="nombresChat">Género</span> <br /> {user.gender}</p>
 
                     
                         <button
                             type="submit"
-                            className="btn btn-primary"
+                            className="btn btn-primary crearChatBtn"
                             onClick={chatRoom}>
                             <p>Crear sala de chat</p>
                         </button>

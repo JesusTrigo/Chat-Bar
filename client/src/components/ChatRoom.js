@@ -40,7 +40,7 @@ const ChatRoom = () => {
                         {chat.users.map((user, i) => {
                             return (
                                 <p
-                                    className="form-control"
+                                    className="usersChatroom"
                                     key={i}>{user.username}
                                 </p>
                             )

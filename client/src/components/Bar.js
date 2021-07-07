@@ -52,7 +52,7 @@ const Bar = () => {
         <div>
             {bar &&
                 <div>
-                    <p>{bar.name} / {bar.city}</p>
+                    <p className="barCity">{bar.name}</p>
                     <ul>
                         {bar.users.map((user, i) => {
                             return (
@@ -68,9 +68,9 @@ const Bar = () => {
                     </ul>
                 </div>}
             <button
-                className="btn btn-primary"
+                className="btn btn-primary salirBtn"
                 onClick={salirBar}
-            >Salir del bar
+            >Salir
             </button>
         </div>
     );
