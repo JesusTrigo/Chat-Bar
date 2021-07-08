@@ -122,3 +122,4 @@ Para el funcionamiento de la app, es necesario instalar las dependencias, usando
 - Mejorar sistema de chat con Socket
 - Añadir la posibilidad de cambio de credenciales
 - Mejorar el estilo
+- Volver al bar

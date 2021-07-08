@@ -17,7 +17,7 @@ const NuevoMensaje = ({ updateChat }) => {
             const body = {
                 text: nuevoMsg
             }
-            const response = await axios.post(`http://localhost:5000/messages/add_message/${id}`, body,
+            const response = await axios.post(`/messages/add_message/${id}`, body,
                 {
                     headers: {
                         "Authorization": token

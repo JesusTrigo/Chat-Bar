@@ -16,7 +16,7 @@ const Bares = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         const getBares = async () => {
-            const response = await axios(`http://localhost:5000/bares`, {
+            const response = await axios("/bares", {
                 headers: {
                     Authorization: token
                 }
@@ -34,7 +34,7 @@ const Bares = () => {
 
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.put(`http://localhost:5000/bares/add_user/${barId}`, {}, {
+            const response = await axios.put(`/bares/add_user/${barId}`, {}, {
                 headers: {
                     Authorization: token
                 }

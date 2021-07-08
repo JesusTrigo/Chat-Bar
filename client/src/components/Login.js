@@ -18,7 +18,7 @@ const Login = ({ getUser }) => {
                 username,
                 password
             }
-            const response = await axios.post("http://localhost:5000/users/login", body)
+            const response = await axios.post("/users/login", body)
 
             console.log(response.data)
             setSuccessMessage("Login correcto")

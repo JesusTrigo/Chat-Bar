@@ -12,7 +12,7 @@ const Perfiles = () => {
     useEffect(() => {
         const getUsers = async () => {
 
-            const response = await axios("http://localhost:5000/users/find/:id");
+            const response = await axios("/users/find/:id");
 
             setUsers(response.data.bar.users);
             console.log(response)

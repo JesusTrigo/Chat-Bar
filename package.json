@@ -9,7 +9,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.12",
+    "path": "^0.12.7",
     "popper.js": "^1.16.1",
     "react": "^17.0.2"
   },

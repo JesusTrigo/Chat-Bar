@@ -44,7 +44,7 @@ const Perfil = () => {
         const headers = {
             "Authorization": token
         };
-        const response = await axios.post(`http://localhost:5000/chat_room/new_room`, body, { headers })
+        const response = await axios.post("/chat_room/new_room", body, { headers })
         setTimeout(() => {
             history.push(`/chat/${response.data.chatroom._id}`);
         }, 2000);

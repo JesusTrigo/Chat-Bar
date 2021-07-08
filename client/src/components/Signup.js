@@ -26,7 +26,7 @@ const Signup = () => {
             }
 
 
-            const response = await axios.post("http://localhost:5000/users/signup", body)
+            const response = await axios.post("/users/signup", body)
             console.log(response)
             setSuccessMessage("Usuario creado correctamente")
 
