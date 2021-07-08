@@ -26,7 +26,7 @@ const App = () => {
 
   const getUser = async () => {
     const token = localStorage.getItem("token")
-    const response = await axios("http://localhost:5000/users/myProfile", {
+    const response = await axios("/api/users/myProfile", {
       headers: {
         "Authorization": token
       }
