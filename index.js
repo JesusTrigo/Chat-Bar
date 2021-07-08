@@ -32,12 +32,12 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.get("/", (req, res) => {
-    return res.send({
-        success: true,
-        message: "Funciona"
-    });
-});
+// app.get("/", (req, res) => {
+//     return res.send({
+//         success: true,
+//         message: "Funciona"
+//     });
+// });
 
 
 app.use("/bares", BarRouter);
