@@ -17,7 +17,7 @@ const Perfil = () => {
     useEffect(() => {
         const getUser = async () => {
             const token = localStorage.getItem("token");
-            const response = await axios(`http://localhost:5000/users/find/${id}`,
+            const response = await axios(`/api/users/find/${id}`,
                 {
                     headers: {
                         "Authorization": token
@@ -44,7 +44,7 @@ const Perfil = () => {
         const headers = {
             "Authorization": token
         };
-        const response = await axios.post("/chat_room/new_room", body, { headers })
+        const response = await axios.post("/api/chat_room/new_room", body, { headers })
         setTimeout(() => {
             history.push(`/chat/${response.data.chatroom._id}`);
         }, 2000);

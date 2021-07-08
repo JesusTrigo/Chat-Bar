@@ -40,13 +40,13 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 
-app.use("/bares", BarRouter);
+app.use("/api/bares", BarRouter);
 
-app.use("/users", UserRouter);
+app.use("/api/users", UserRouter);
 
-app.use("/chat_room", ChatRoomRouter);
+app.use("/api/chat_room", ChatRoomRouter);
 
-app.use("/messages", MessageRouter);
+app.use("/api/messages", MessageRouter);
 
 app.use(errorHandler);
 

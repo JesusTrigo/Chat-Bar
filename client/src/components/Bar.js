@@ -16,7 +16,7 @@ const Bar = () => {
     useEffect(() => {
         const getBar = async () => {
             const token = localStorage.getItem("token");
-            const response = await axios(`/bares/find/${id}`,
+            const response = await axios(`/api/bares/find/${id}`,
                 {
                     headers: {
                         "Authorization": token
@@ -35,7 +35,7 @@ const Bar = () => {
         e.preventDefault();
 
         const token = localStorage.getItem("token");
-        const response = await axios.put(`/bares/remove_user/${id}`, {},
+        const response = await axios.put(`/api/bares/remove_user/${id}`, {},
             {
                 headers: {
                     "Authorization": token

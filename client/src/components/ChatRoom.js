@@ -12,7 +12,7 @@ const ChatRoom = () => {
 
     const getChat = async () => {
         const token = localStorage.getItem("token");
-        const response = await axios(`/chat_room/find/${id}`,
+        const response = await axios(`/api/chat_room/find/${id}`,
             {
                 headers: {
                     "Authorization": token
